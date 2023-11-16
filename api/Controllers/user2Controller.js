@@ -20,26 +20,6 @@ exports.addUsers2 = async (req, res) =>{
 
     }
 
-    //Return all
-    exports.getUsers2 = (req, res) => {
-        let query = ""
-        if(req.query.s) query=req.query.s
-        
-
-        Users2.find().exec().then(result => {
-            res.status(200).json({
-                message:'Users retrouvée',
-                count: result.length,
-                data: result
-            })
-        }).catch(error => {
-            console.log(error)
-            res.status(500).json({
-                error
-            })
-        })
-    }
-
     exports.getUser2 = async (req, res) => {
         const {_id} = req.body
          

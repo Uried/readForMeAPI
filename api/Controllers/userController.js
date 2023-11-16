@@ -42,22 +42,5 @@ exports.getUser = async (req, res) => {
   }
 };
 
-//get all users
-exports.getUsers = (req, res) => {
-    Users.find()
-        .exec()
-        .then(result => {
-            res.status(200).json({
-                message: 'Utilisateurs',
-                count: result.length,
-                data: result
-            });
-        })
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({
-                error
-            });
-        });
-};
+
 
