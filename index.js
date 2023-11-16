@@ -24,10 +24,6 @@ async function connectToDatabase() {
   
   connectToDatabase();
 
-  const FormModel = mongoose.model('Form', {
-    fields: [{ type: String, placeholder: String, value: String }],
-  });
-  
   // Route pour enregistrer le formulaire
  
 
