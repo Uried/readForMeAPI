@@ -39,3 +39,5 @@ app.use('/users2', users2)
 app.listen(port, function () { 
      console.log("Exécution du serveur sur le port " + port); 
 });
+
+module.exports = app;
