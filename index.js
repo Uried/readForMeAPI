@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 const cors = require('cors')
 const mongoose = require('mongoose');
 const users = require('./api/Routes/user')
-const users2 = require('./api/Routes/user2')
+const texts = require('./api/Routes/text')
 
 const app = express();  
 dotenv.config()
@@ -28,11 +28,11 @@ async function connectToDatabase() {
  
 
 // Configuration du port du serveur 
-const port = process.env.PORT || 5400 ;
+const port = process.env.PORT || 5800 ;
 // Envoyer un message pour l'URL par défaut 
 app.get('/', (req, res) => res.send('Hi, We can start ! '));
 app.use('/users', users)
-app.use('/users2', users2)
+app.use('/texts', texts)
 
 
 // Lancer l'application pour écouter le port spécifié 

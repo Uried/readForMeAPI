@@ -1,5 +1,4 @@
 const usersController = require("../Controllers/userController");
-const users2Controller = require("../Controllers/user2Controller");
 
 // Initialiser express router
 const router = require("express").Router();
