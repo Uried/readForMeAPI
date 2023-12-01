@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const TextSchema = new mongoose.Schema({
   title: {
@@ -12,9 +12,14 @@ const TextSchema = new mongoose.Schema({
   isPublic: {
     type: Boolean,
     default: false,
-    require: true,
+    required: true,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
 });
 
-const Text = mongoose.model('Text', TextSchema);
+const Text = mongoose.model("Text", TextSchema);
 module.exports = Text;

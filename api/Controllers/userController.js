@@ -1,15 +1,15 @@
 const User = require("../Models/User");
+const generateToken = require("./generateToken")
 
 // Ajouter un utilisateur
 exports.addUsers = async (req, res) => {
   try {
-    const { idUser, pseudo, phone, password } = req.body;
+    const { jId, pseudo, phone} = req.body;
 
     const newUser = new User({
-      idUser: idUser,
+      jId: jId,
       pseudo: pseudo,
-      phone: phone,
-      password: password,
+      phone: phone
     });
 
     await newUser.save();
@@ -28,23 +28,22 @@ exports.addUsers = async (req, res) => {
 // Obtenir un utilisateur par son ID
 exports.getUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { jId } = req.params;
 
-    if (id.length !== 24) {
+    if (jId.length !== 24) {
       throw Error("ID d'utilisateur invalide");
     }
 
-    const user = await User.findById(id);
+    const user = await User.findById(jId);
 
     if (!user) {
       throw Error("Utilisateur non trouvé");
     }
 
     res.status(200).json({
-      idUser: idUser,
+      jId: jId,
       pseudo: pseudo,
       phone: phone,
-      password: password,
       message: "OK",
     });
   } catch (error) {
@@ -57,25 +56,24 @@ exports.getUser = async (req, res) => {
 //log user
 
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
-  //Check if the user email exist
+  const { pseudo, phone } = req.body;
+  //Check if the user phone exist
   try {
-    const user = await Users.findOne({ email });
+    const user = await User.findOne({ phone });
 
     if (!user) {
       return res.status(400).json({ message: "utilisateur non trouve" });
     } else {
-      const isMatch = bcrypt.compare(password, user.password);
 
-      if (!isMatch) {
-        return res.json({ message: "mot de passe incorrect " });
+      if (pseudo !== user.pseudo) {
+        return res.json({ message: "cet utilisateur n'existe pas " });
       } else {
         res.status(200).json({
           message: "Connected",
-          idUser: idUser,
+          jId: user.jId,
           pseudo: user.pseudo,
-          phone: phone,
-          token: generateToken(user._id),
+          phone: user.phone,
+          token: generateToken(user.jId)
         });
       }
     }

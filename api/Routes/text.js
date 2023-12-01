@@ -1,10 +1,11 @@
 const textController = require('../Controllers/textController')
+const authorization = require('../Controllers/authcontroller')
 
 //Initialize express router
 const router = require('express').Router();
 
-router.post('/', textController.addText);
-router.get('/:id', textController.getText);
+router.post('/', textController.createText);
+router.get("/:id", authorization.verifyToken, textController.getUserTexts);
 router.get("/", textController.getTexts);
 
 // //Export API routes

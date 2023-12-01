@@ -1,25 +1,32 @@
 const Texts = require("../Models/Text");
 
-// Ajouter un utilisateur
-exports.addText = async (req, res) => {
+// Ajouter un texte
+exports.createText = async (req, res) => {
   try {
-    const {  title,content, isPublic } = req.body;
+    const { title, content, isPublic } = req.body;
+    const userId = req.user.jId;
 
     const newText = new Texts({
       title: title,
       content: content,
-      isPublic: isPublic
+      isPublic: isPublic,
+      user: userId,
     });
 
     await newText.save();
+    await User.findByIdAndUpdate(
+      userId,
+      { $push: { texts: newText._id } },
+      { new: true }
+    );
 
     res.status(201).json({
       message: "Création réussie",
-      data: newText
+      data: newText,
     });
   } catch (error) {
     res.status(500).json({
-      error: "Une erreur est survenue lors de la création du texte."
+      error: "Une erreur est survenue lors de la création du texte.",
     });
   }
 };
@@ -44,30 +51,22 @@ exports.getTexts = (req, res) => {
     });
 };
 
-// Obtenir un texte par son ID
-exports.getText = async (req, res) => {
+// get user texts
+
+exports.getUserTexts = async (req, res) => {
   try {
-    const { id } = req.params;
+    const userId = req.params.jId;
 
-    if (id.length !== 24) {
-      throw Error("ID d'utilisateur invalide");
-    }
-
-    const text = await Text.findById(id);
-
-    if (!user) {
-      throw Error("Texte non trouvé");
-    }
+    const texts = await Texts.find({ user: userId });
 
     res.status(200).json({
-      title: title,
-        content: content,
-        isPublic: isPublic,
-      message: "OK"
+      message: "Textes récupérés avec succès",
+      data: texts,
     });
   } catch (error) {
-    res.status(404).json({
-      error: error.message
+    res.status(500).json({
+      error:
+        "Une erreur est survenue lors de la récupération des textes de l'utilisateur.",
     });
   }
 };

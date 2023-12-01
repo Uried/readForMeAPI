@@ -30,9 +30,13 @@ async function connectToDatabase() {
 // Configuration du port du serveur 
 const port = process.env.PORT || 5800 ;
 // Envoyer un message pour l'URL par défaut 
-app.get('/', (req, res) => res.send('Hi, We can start ! '));
+app.get('/', (req, res) => res.send('Hello,  its works ! '));
 app.use('/users', users)
 app.use('/texts', texts)
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8100");
+  next();
+});
 
 
 // Lancer l'application pour écouter le port spécifié 
