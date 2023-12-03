@@ -13,12 +13,6 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  texts: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Text",
-    },
-  ],
 });
 
 const User = mongoose.model("User", UserSchema);
