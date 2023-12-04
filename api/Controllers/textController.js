@@ -69,12 +69,20 @@ exports.getTexts = (req, res) => {
 
 exports.getUserTexts = async (req, res) => {
   try {
-    const userId = req.params.jId;
+    const jId = req.jId; 
 
-    const texts = await Text.find({ user: userId });
+    const user = await User.findOne({ jId });
+    if (!user) {
+      return res.status(404).json({
+        error: "Utilisateur non trouvé.",
+      });
+    }
+
+    const texts = await Text.find({ user: user._id });
 
     res.status(200).json({
       message: "Textes récupérés avec succès",
+      count: texts.length,
       data: texts,
     });
   } catch (error) {
@@ -84,3 +92,25 @@ exports.getUserTexts = async (req, res) => {
     });
   }
 };
+
+// Delete a text
+exports.deleteText =  (req, res) => {
+    const id = req.params.id
+    if(id.length != 24) return res.status(400).json({
+        message: 'id invalid'
+    })
+    
+
+    Text.deleteOne({_id:id}).exec().then(result => {
+        res.status(200).json({
+            message : 'Texte supprimé',
+            data : result
+        })
+
+    }).catch(error =>{
+        console.log(error)
+        res.status(500).json({
+            error
+        })
+    })
+}
