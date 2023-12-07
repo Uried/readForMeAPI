@@ -65,6 +65,7 @@ exports.getTexts = (req, res) => {
     });
 };
 
+
 // get user texts
 
 exports.getUserTexts = async (req, res) => {
@@ -114,3 +115,4 @@ exports.deleteText =  (req, res) => {
         })
     })
 }
+

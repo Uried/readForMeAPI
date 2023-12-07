@@ -4,6 +4,8 @@ const cors = require('cors')
 const mongoose = require('mongoose');
 const users = require('./api/Routes/user')
 const texts = require('./api/Routes/text')
+const search = require("./api/Routes/search");
+const publictexts = require("./api/Routes/publicText");
 
 const app = express();  
 dotenv.config()
@@ -33,10 +35,8 @@ const port = process.env.PORT || 5500 ;
 app.get('/', (req, res) => res.send('Hello, ready to communicate! '));
 app.use('/users', users)
 app.use('/texts', texts)
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8100");
-  next();
-});
+app.use("/search", search);
+app.use("/publictexts", publictexts);
 
 
 // Lancer l'application pour écouter le port spécifié 
