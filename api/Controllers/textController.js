@@ -70,7 +70,8 @@ exports.getTexts = (req, res) => {
 
 exports.getUserTexts = async (req, res) => {
   try {
-    const jId = req.jId; 
+    const jId = req.params.jId;
+    console.log(jId);
 
     const user = await User.findOne({ jId });
     if (!user) {
@@ -79,7 +80,7 @@ exports.getUserTexts = async (req, res) => {
       });
     }
 
-    const texts = await Text.find({ user: user._id });
+    const texts = await Text.find({ user: user._id, isPublic: false });
 
     res.status(200).json({
       message: "Textes récupérés avec succès",

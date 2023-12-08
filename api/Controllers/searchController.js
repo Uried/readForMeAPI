@@ -1,12 +1,26 @@
 const Text = require("../Models/Text");
+const User = require("../Models/User");
 
 exports.searchTitlesAndContents = async (req, res) => {
   try {
     const searchTerm = req.query.term;
+    const jId = req.query.jId;
+    console.log(jId)
+    console.log(searchTerm);
+
+    const user = await User.findOne({ jId });
+    if (!user) {
+      return res.status(404).json({
+        error: "Utilisateur non trouvé.",
+      });
+    }
+
     const texts = await Text.find({
       $or: [
-        { title: { $regex: searchTerm, $options: "i" } },
-        { content: { $regex: searchTerm, $options: "i" } },
+        { user: user._id, title: { $regex: searchTerm, $options: "i" } },
+        { user: user._id, content: { $regex: searchTerm, $options: "i" } },
+        { isPublic: true, title: { $regex: searchTerm, $options: "i" } },
+        { isPublic: true, content: { $regex: searchTerm, $options: "i" } },
       ],
     });
 

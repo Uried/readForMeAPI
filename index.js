@@ -1,4 +1,5 @@
 const express = require('express')
+const bodyParser = require("body-parser");
 const dotenv = require('dotenv')
 const cors = require('cors')
 const mongoose = require('mongoose');
@@ -12,6 +13,7 @@ dotenv.config()
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(bodyParser.json());
 
 
 async function connectToDatabase() {
